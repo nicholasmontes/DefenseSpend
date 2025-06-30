@@ -1,27 +1,27 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#00bcd4', '#2196f3', '#3f51b5', '#9c27b0', '#e91e63'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A'];
 
 function TopVendorsChart({ data }) {
-  if (!data || data.length === 0) return null;
+  if (!data || data.length === 0) return <p>No vendor data available.</p>;
 
-  // Aggregate total amount per recipient
-  const totals = {};
-  data.forEach((item) => {
-    if (!totals[item.recipient]) totals[item.recipient] = 0;
-    totals[item.recipient] += item.amount;
-  });
+  // Aggregate total award amounts per vendor
+  const totals = data.reduce((acc, item) => {
+    const vendor = item['Recipient Name'] || 'Unknown';
+    acc[vendor] = (acc[vendor] || 0) + item['Award Amount'];
+    return acc;
+  }, {});
 
-  // Convert to array and sort
+  // Convert to array and get top 5
   const topVendors = Object.entries(totals)
-    .map(([name, amount]) => ({ name, value: amount }))
+    .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value)
     .slice(0, 5);
 
   return (
-    <div className="bg-[#1c2333] p-4 rounded-lg shadow-lg h-full">
-      <h2 className="text-lg font-semibold mb-2">Top 5 Vendors</h2>
+    <div className="bg-[#1c2333] p-4 rounded-lg shadow-lg">
+      <h2 className="text-xl mb-4 font-semibold">Top 5 Vendors by Award Amount</h2>
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie
@@ -37,7 +37,7 @@ function TopVendorsChart({ data }) {
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip formatter={(val) => `$${val.toLocaleString()}`} />
+          <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
