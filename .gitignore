@@ -1,0 +1,38 @@
+# Node.js dependencies
+node_modules/
+
+# Python virtual environments
+venv/
+
+# Python bytecode cache
+__pycache__/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode settings folder
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python stuff
+*.pyc
+*.pyo
+*.pyd
+
+# Coverage reports
+coverage/
+*.cover
+*.py,cover
+
+# Optional: Mac system files
+._*
+
